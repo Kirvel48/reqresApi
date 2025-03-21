@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.kirvel'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation(
+            'io.rest-assured:rest-assured:5.5.1',
+            'org.junit.jupiter:junit-jupiter:5.10.3',
+            'org.slf4j:slf4j-simple:2.0.7'
+    )
+}
+
+test {
+    useJUnitPlatform()
+}
