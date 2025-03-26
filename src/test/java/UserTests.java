@@ -3,12 +3,15 @@ import io.restassured.RestAssured;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 
 public class UserTests {
     @BeforeAll
     public static void beforeAll() {
-        RestAssured.baseURI = "https://reqres.in/api";
+        RestAssured.baseURI = "https://reqres.in";
+        RestAssured.basePath = "/api";
     }
 
     @Test
@@ -16,11 +19,13 @@ public class UserTests {
         given()
                 .log().uri()
                 .when()
-                .get("/users?page=1")
+                .queryParam("page", "1")
+                .get("/users")
                 .then()
                 .log().status()
                 .log().body()
-                .statusCode(200);
+                .statusCode(200)
+                .body("data[0].id", notNullValue());
     }
 
     @Test
@@ -40,7 +45,8 @@ public class UserTests {
                 .then()
                 .log().status()
                 .log().body()
-                .statusCode(201);
+                .statusCode(201)
+                .body("createdAt", notNullValue());
 
     }
 
@@ -61,7 +67,8 @@ public class UserTests {
                 .then()
                 .log().status()
                 .log().body()
-                .statusCode(200);
+                .statusCode(200)
+                .body("name", is("kir"));
     }
 
     @Test
@@ -80,11 +87,13 @@ public class UserTests {
                 .then()
                 .log().status()
                 .log().body()
-                .statusCode(200);
+                .statusCode(200)
+                .body("updatedAt", notNullValue());
     }
 
     @Test
     void successGetUserInfoTest() {
+
         given()
                 .log().uri()
                 .when()
@@ -92,7 +101,8 @@ public class UserTests {
                 .then()
                 .log().status()
                 .log().body()
-                .statusCode(200);
+                .statusCode(200)
+                .body("data.email", notNullValue());
     }
 
     @Test
@@ -107,5 +117,3 @@ public class UserTests {
     }
 
 }
-
-
